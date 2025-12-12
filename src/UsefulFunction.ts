@@ -74,9 +74,9 @@ export class UsefulFunction {
         return false;
     }
     
-    static getCounterClockwiseMove(hashGraph : Map<number,number>,currentNode : number) {
+    static getCounterClockwiseMove<T>(hashGraph : Map<number,number[]>,currentNode : number) : number {
         if (!hashGraph.has(currentNode)) throw Error("Key not found");
-        let possibleNextMoves = [...hashGraph.get(currentNode)];
+        let possibleNextMoves = [...hashGraph.get(currentNode)!];
         if(possibleNextMoves.length == 1) {
             currentNode = possibleNextMoves[0];
             return currentNode;
@@ -89,21 +89,23 @@ export class UsefulFunction {
         }
         return possibleNextMoves[0];
     }
-    static doesMoveExistElsewhere(map,valueToFind,keyToCheckUnder){
+    static doesMoveExistElsewhere<T>(map : Map<number,number[]>,valueToFind :number,keyToCheckUnder : number) : boolean{
         if (map.has(valueToFind) == false) throw new Error("Could not find node");
-        return this.isInArray(map.get(keyToCheckUnder),valueToFind);
+        return this.isInArray(map.get(keyToCheckUnder)!,valueToFind);
     }
 
-    static doesKeyHaveSpecificValue(hashGraph,key,specificValue) {
-        let arrayFromKey = hashGraph.get(key);
+    static doesKeyHaveSpecificValue(hashGraph : Map<number,number[]>,key : number,specificValue : number) :boolean{
+        if (!(hashGraph.has(key))) throw Error("Key not found in hash graph");
+        let arrayFromKey = hashGraph.get(key)!;
         for (let i =0; i < arrayFromKey.length ; i ++) {
             if (arrayFromKey[i] === specificValue) return true;
         }
         return false;
     }
     
-    static findNodeThatHasSpecificNodeAsConnection(hashGraph,startingNode,specificNode,lastNode) {
-        let connectionsToStartingNode = hashGraph.get(startingNode);
+    static findNodeThatHasSpecificNodeAsConnection(hashGraph : Map<number,number[]>,startingNode : number,specificNode : number,lastNode : number) : number{
+        if (!(hashGraph.has(startingNode))) throw Error("Key not found in hash graph");
+        let connectionsToStartingNode = hashGraph.get(startingNode)!;
         
         for (let i =0; i < connectionsToStartingNode.length;i++) {
             if (connectionsToStartingNode[i] === lastNode) continue;
@@ -114,10 +116,11 @@ export class UsefulFunction {
 
             return connectionsToStartingNode[i];
         }
-        return false;
+        return -1;
     }
 
-    static runSearchMovementAroundCenter(hashGraph,start,current,center,lastNode){
+    static runSearchMovementAroundCenter(hashGraph : Map<number,number[]>,start : number,current : number,center : number,lastNode : number){
+
         let numberOfIterations = 100;
         let iteration = 1;
         let currentNode = current;
@@ -129,7 +132,7 @@ export class UsefulFunction {
                 // throw new Error("Upper limit of iterations reached")
                 return false;
             }
-            if (currentNode == false) {
+            if (currentNode == -1) {
                 return false;
             } 
             let temp = currentNode;
@@ -139,12 +142,12 @@ export class UsefulFunction {
         }
         return true;
     }
-    static isNodeSurroundedByNodes(hashGraph,nodeToCheck,numberOfIterations) {
-        
-        let connectionsToNode = hashGraph.get(nodeToCheck);
+    static isNodeSurroundedByNodes(hashGraph : Map<number,number[]>,nodeToCheck : number)  : boolean{
+        if (!(hashGraph.has(nodeToCheck))) throw Error("Key not found in hash graph");
+        let connectionsToNode = hashGraph.get(nodeToCheck)!;
         
         let iteration = 1;
-        numberOfIterations = 100;
+        let numberOfIterations = 100;
         let result = [];
         for (let i =0; i < connectionsToNode.length;i++) {
         
@@ -155,32 +158,30 @@ export class UsefulFunction {
             result.push(pathwayConnects);
         }
         return this.isInArray(result,true)
-        
-        
-        
 
     }
 
-    static getOutsideNode(hashGraph) {
+    static getOutsideNode(hashGraph : Map<number,number[]>) : number {
         for (const key of hashGraph.keys()) {
             
             if (this.isNodeSurroundedByNodes(hashGraph,key)) continue;
             
             return key; 
         }
+        return -1;
     }
-    static randomIntBetween(x,y){
+    static randomIntBetween(x : number,y : number) : number{
         let change = Math.round(Math.random() *(y-x));
         return x + change;
     }
-    static multiplyArray(array,number){
+    static multiplyArray(array : number[],number : number) : number[]{
         let newArray = [];
         for (const element of array) {
             newArray.push(element*number);
         }
         return newArray;
     }
-    static divideArray(array,number){
+    static divideArray(array : number[],number : number) : number[]{
         if (number ==0) throw new Error("Divisor is 0, critical failure, cannot divide by zero!");
         let newArray = [];
         for (const element of array) {
@@ -188,7 +189,7 @@ export class UsefulFunction {
         }
         return newArray;
     }
-    static elementWiseMultiplication(array1,array2){
+    static elementWiseMultiplication(array1 : number[],array2 : number[]){
         if (array1.length != array2.length) throw new Error("Array lengths are different!");
         let productArray = [];
         for (let i =0 ; i < array1.length;i ++) {
@@ -196,11 +197,11 @@ export class UsefulFunction {
         }
         return productArray;
     }
-    static randomP5Color(){
+    static randomP5Color() : string{
         return "rgb(" + Math.round(Math.random()*255) + "," + Math.round(Math.random()*255) + "," + Math.round(Math.random()*255) + ")";
     }
 
-    static getNodesOnOutsideOfCounterClockwiseGraph(hashGraph,numberOfIterations) {
+    static getNodesOnOutsideOfCounterClockwiseGraph(hashGraph : Map<number, number[]>,numberOfIterations : number) {
         if (numberOfIterations == undefined) {
             numberOfIterations = 15;
         }
@@ -225,12 +226,12 @@ export class UsefulFunction {
 
         return pathway;
     }
-    static addElementsToArray(array,elements){
+    static addElementsToArray<T>(array : T[] ,elements : T[]){
         for (const element of elements) {
             array.push(element);
         }
     }
-    static removeIndicesFromArray(array,indices) {
+    static removeIndicesFromArray<T>(array : T[],indices : number[]) {
         array = [...array];
         let index;
         for (let i = indices.length-1; i >= 0; i--) {
