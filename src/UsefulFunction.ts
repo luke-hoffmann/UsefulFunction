@@ -240,9 +240,10 @@ export class UsefulFunction {
         }
         return array;
     }
-    static clampNumber(number : number, bottomClamp : number, topClamp : number) {
+    static clampNumber(number : number, bottomClamp : number, topClamp : number) : number{
         number = number > topClamp ? topClamp : number;
         number = number < bottomClamp ? bottomClamp : number;
+        return number;
     }
     
 }

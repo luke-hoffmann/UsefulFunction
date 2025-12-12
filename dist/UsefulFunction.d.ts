@@ -23,5 +23,5 @@ export declare class UsefulFunction {
     static getNodesOnOutsideOfCounterClockwiseGraph(hashGraph: Map<number, number[]>, numberOfIterations: number): number[];
     static addElementsToArray<T>(array: T[], elements: T[]): void;
     static removeIndicesFromArray<T>(array: T[], indices: number[]): T[];
-    static clampNumber(number: number, bottomClamp: number, topClamp: number): void;
+    static clampNumber(number: number, bottomClamp: number, topClamp: number): number;
 }

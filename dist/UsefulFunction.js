@@ -229,6 +229,7 @@ export class UsefulFunction {
     static clampNumber(number, bottomClamp, topClamp) {
         number = number > topClamp ? topClamp : number;
         number = number < bottomClamp ? bottomClamp : number;
+        return number;
     }
 }
 // source - chatgpt
