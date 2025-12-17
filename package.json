@@ -19,7 +19,7 @@
     "url": "https://github.com/luke-hoffmann/UsefulFunction/issues"
   },
   "homepage": "https://github.com/luke-hoffmann/UsefulFunction#readme",
-  "dependencies": {
+  "devDependencies": {
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
